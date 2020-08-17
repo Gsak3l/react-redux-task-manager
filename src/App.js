@@ -1,13 +1,27 @@
-import React from 'react';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import TasksPage from './components/TasksPage'
+import React from "react";
+import { connect } from "react-redux";
 
-function App() {
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+import TasksPage from "./components/TasksPage";
+import { editTask } from "./actions";
+
+function App(props) {
+  const onStatusChange = (id, status) => {
+    props.dispatch(editTask(id, { status }));
+  };
+
   return (
     <div className="App">
-      <TasksPage/>
+      <TasksPage tasks={props.tasks} />
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    tasks: state.tasks,
+  };
+};
+
+export default connect(mapStateToProps)(App);
